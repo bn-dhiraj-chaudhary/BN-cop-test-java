@@ -1,0 +1,25 @@
+# Coverity on Polaris (COP) capture/analyze configuration for cop-test-java.
+# Consumed by the Polaris/Coverity CLI (`polaris` or `cov-capture`) during the pipeline scan step.
+capture:
+  build:
+    clean-command: "mvn -B clean"
+    build-command: "mvn -B install -DskipTests"
+  files:
+    exclude-regex: (target|\.git)/.*
+  languages:
+    include: [java]
+analyze:
+  mode: central
+  coverity:
+    cov-analyze:
+      - "--webapp-security"
+      - "--security"
+      - "--enable"
+      - "HARDCODED_CREDENTIALS"
+      - "--enable"
+      - "SQLI"
+      - "--enable"
+      - "OS_CMD_INJECTION"
+install:
+  coverity:
+    version: default
